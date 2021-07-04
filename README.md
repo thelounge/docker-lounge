@@ -83,19 +83,22 @@ $ docker exec --user node -it [container_name] thelounge add [username]
 
 _Note: without [persisting data](#data-directory), added users will be lost when the container is removed._
 
-### Changing the port that The Lounge will be available on
+### ENVIRONMENT VARIABLES
+When you start the The Lounge image, you can adjust the configuration of the server by passing a `CONFIG_OPTIONS` environment variable on the docker run command line. See the [Configuration documentation](https://thelounge.chat/docs/configuration) for description of the individual settings that can be passed through this variable. The settings are separated by a `|`
 
-To change the port which The Lounge will be available on, one will have to
-change the host port in the port mapping. To make The Lounge available on e.g. port 5000:
-
-```sh
-$ docker run --detach \
+Example:
+```
+$ docker run --env CONFIG_OPTIONS="public=false|defaults.name=My Lounge|prefetch=true"
+             --detach \
              --name thelounge \
-             --publish 5000:9000 \ # Change host port to listen on port 5000
+             --publish 9000:9000 \
              --volume ~/.thelounge:/var/opt/thelounge \
              --restart always \
              thelounge/thelounge:latest
 ```
+
+
+
 
 ### Container user (advanced usage)
 
